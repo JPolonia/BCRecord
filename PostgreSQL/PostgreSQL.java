@@ -15,32 +15,32 @@ import java.util.Properties;
 		 Connection con = null;
 		 
 		 
-		 public PostgreSQL(String url, String username, String pass) 
+		 public PostgreSQL(String url, String username, String pass, String ssl_parameter) 
 		 { 
 			 
 			 props = new Properties();
 			 props.setProperty("user", username);
 			 props.setProperty("password", pass);
-			 props.setProperty("ssl", "false");
+			 props.setProperty("ssl", ssl_parameter);
 			 
 			 try
 			    {
 			        Class.forName(driver);
 			        con =  DriverManager.getConnection(url, props);
-			        System.out.println("Conex„o realizada com sucesso.");
+			        System.out.println("Conex√£o realizada com sucesso.");
 			        System.out.println(con);
 			        
 			    }
 			    catch (ClassNotFoundException ex)
 			    {
 			    	
-			        System.err.print(ex.getMessage());System.out.println("Conex„o falhada 1.");
+			        System.err.print(ex.getMessage());System.out.println("Conex√£o falhada 1.");
 			    } 
 			    
 			    catch (SQLException e)
 			    {
 			    	
-			        System.err.print(e.getMessage());System.out.println("Conex„o falhada 2.");
+			        System.err.print(e.getMessage());System.out.println("Conex√£o falhada 2.");
 			  
 			    }
 
