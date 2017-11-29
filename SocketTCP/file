@@ -1,0 +1,7 @@
+TCP SOCKETS
+
+A ideia é que o servidor abre a comunicação (um socket) e fica à espera que um cliente o ocupe.
+
+O cliente envia rápidamente uma mensagem e deixa o socket livre.
+
+O servidor interpreta as mensagens recebidas ( por exemplo query's à base de dados)
