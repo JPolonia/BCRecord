@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class RegistMedic {
+public class Regist_medic {
 
 	private JFrame frame;
 	private JTextField Name_textField;
@@ -29,7 +29,7 @@ public class RegistMedic {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistMedic window = new RegistMedic();
+					Regist_medic window = new Regist_medic();
 					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class RegistMedic {
 	/**
 	 * Create the application.
 	 */
-	public RegistMedic() {
+	public Regist_medic() {
 		initialize();
 	}
 
@@ -93,12 +93,8 @@ public class RegistMedic {
 			{
 				String[] args = new String[3];
 				PostgreSQL con = database.Main.main(args);
-				/*args[0]	= "r";
-				args[1] = Name_textField.getText();
-				args[2] = Username_textField.getText();
-				args[3] = new String(passwordField.getPassword());*/
 				
-				if(con.regist(Name_textField.getText(), Username_textField.getText(), new String(passwordField.getPassword())) == 1)
+				if(con.registMedic(Name_textField.getText(), Username_textField.getText(), new String(passwordField.getPassword())) == 1)
 				{	
 					frame.dispose();
 						
@@ -142,4 +138,5 @@ public class RegistMedic {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+
 }
