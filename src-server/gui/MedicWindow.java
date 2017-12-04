@@ -57,7 +57,7 @@ public class MedicWindow {
 				jan_regist.getFrame().setVisible(true);
 			}
 		});
-		btnRegistMedic.setBounds(23, 104, 101, 23);
+		btnRegistMedic.setBounds(23, 110, 101, 23);
 		frame.getContentPane().add(btnRegistMedic);
 		
 		JButton btnLogOut = new JButton("Log out");
@@ -85,7 +85,17 @@ public class MedicWindow {
 		btnRegistPacient.setBounds(23, 138, 101, 23);
 		frame.getContentPane().add(btnRegistPacient);
 		
-		JLabel label_Medic = new JLabel("M\u00E9dico");
+		JButton btnNewButton = new JButton("Pacientes");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MedicInterface medico_interface = new MedicInterface();
+				medico_interface.getFrame().setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(23, 75, 103, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JLabel label_Medic = new JLabel("Medico");
 		label_Medic.setBounds(23, 27, 46, 14);
 		frame.getContentPane().add(label_Medic);
 		

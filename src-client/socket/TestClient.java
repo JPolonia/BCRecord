@@ -17,7 +17,7 @@ public class TestClient {
     	Scanner scanner = new Scanner(System.in);
 	    System.out.println("Client name:");
 		name = scanner.nextLine();
-    	TCPClient cliente = new TCPClient(name,"localhost",4444);
+    	TCPClient cliente = new TCPClient(name,"localhost",4445);
     	cliente.makeConnection();
     	
     	while(true){

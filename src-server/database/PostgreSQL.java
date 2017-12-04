@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
+import javax.swing.JTextField;
 
 
 	public class PostgreSQL
@@ -300,5 +301,47 @@ import java.util.Properties;
 	           
 
 	          
+		 }
+		 
+		 public int search(String paciente, JTextField data, JTextField sns, JTextField data1c, JTextField morada, JTextField estado_civil ) {
+			 
+			 String sql = "SELECT * from bcrecord.paciente where nome=?";
+			 PreparedStatement pst;
+			 ResultSet rs;
+			 
+	         try {
+	        	 	
+	        	 	pst=con.prepareStatement(sql);
+					pst.setString(1, paciente);
+					
+					rs=pst.executeQuery();
+					
+					if(rs.next()) {
+						String add1=rs.getString("data_nasc");
+						data.setText(add1);
+						String add2=rs.getString("sns");
+						sns.setText(add2);
+						String add3=rs.getString("data_1c");
+						data1c.setText(add3);
+						String add4=rs.getString("morada");
+						morada.setText(add4);
+						String add5=rs.getString("estado_civil");
+						estado_civil.setText(add5);
+						
+						System.out.println("Procura bem sucedida");
+						return 1;
+						
+					} else{
+						
+						System.out.println("Procura Mal Sucedida");
+						return 0;
+					}
+
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			return 0;
+
 		 }
 	}

@@ -22,7 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 
-public class SearchPacient extends JFrame {
+public class SearchPatient extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -38,7 +38,7 @@ public class SearchPacient extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SearchPacient frame = new SearchPacient();
+					SearchPatient frame = new SearchPatient();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class SearchPacient extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SearchPacient() {
+	public SearchPatient() {
 		setFrame(new JFrame());
 		getFrame().setBounds(100, 100, 900, 600);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

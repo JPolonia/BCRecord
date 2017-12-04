@@ -6,9 +6,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.PostgreSQL;
+
 import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -21,26 +26,32 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.sql.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MedicInterface extends JFrame {
 
 	private JFrame frame;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txt_paciente;
+	private JTextField txt_data;
 	private JLabel lblNewLabel_2;
-	private JTextField textField_2;
+	private JTextField txt_sns;
 	private JLabel lblNewLabel_3;
-	private JTextField textField_3;
+	private JTextField txt_data1c;
 	private JLabel lblNewLabel_4;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField txt_morada;
 	private JTextField textField_10;
-	private JTextField textField_11;
+	private JTextField txt_estado_civil;
+	Connection conn;
+	//PreparedStatement ps;
+	//ResultSet rs;
+
 	
 	/**
 	 * Launch the application.
@@ -62,52 +73,80 @@ public class MedicInterface extends JFrame {
 	 * Create the frame.
 	 */
 	public MedicInterface() {
-		frame = new JFrame();
-		frame.setBackground(Color.CYAN);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 1080);
+		setFrame(new JFrame());
+		getFrame().setBackground(Color.CYAN);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().setBounds(100, 100, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Paciente:");
 		lblNewLabel.setBounds(10, 4, 60, 48);
 		contentPane.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(69, 18, 297, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txt_paciente = new JTextField();
+		txt_paciente.addKeyListener(new KeyAdapter() {
+			//@Override
+			public void keyReleased(KeyEvent arg0) {
+				try {
+					
+					String args[] = new String[1];
+					PostgreSQL con = database.Main.main(args);
+		
+					if(con.search(txt_paciente.getText(), txt_data, txt_sns, txt_data1c, txt_morada, txt_estado_civil)==1) {
+						/*String add1=rs.getString("data_nasc");
+						txt_data.setText(add1);
+						String add2=rs.getString("sns");
+						txt_sns.setText(add2);
+						String add3=rs.getString("data_1c");
+						txt_data1c.setText(add3);
+						String add4=rs.getString("morada");
+						txt_morada.setText(add4);
+						String add5=rs.getString("estado_civil");
+						txt_estado_civil.setText(add5);*/
+					}
+					
+				con.disconect();	
+					
+				}catch(Exception e){
+					JOptionPane.showMessageDialog(null,e);
+				}
+			}
+		});
+		txt_paciente.setBounds(69, 18, 297, 20);
+		contentPane.add(txt_paciente);
+		txt_paciente.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Data Nasc:");
 		lblNewLabel_1.setBounds(405, 13, 90, 31);
 		contentPane.add(lblNewLabel_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(467, 18, 130, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txt_data = new JTextField();
+		txt_data.setBounds(467, 18, 130, 20);
+		contentPane.add(txt_data);
+		txt_data.setColumns(10);
 		
 		lblNewLabel_2 = new JLabel("SNS:");
 		lblNewLabel_2.setBounds(632, 13, 53, 31);
 		contentPane.add(lblNewLabel_2);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(663, 18, 130, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		txt_sns = new JTextField();
+		txt_sns.setBounds(663, 18, 130, 20);
+		contentPane.add(txt_sns);
+		txt_sns.setColumns(10);
 		
-		lblNewLabel_3 = new JLabel("D.1ªC:");
+		lblNewLabel_3 = new JLabel("D.1\u00BAC:");
 		lblNewLabel_3.setBounds(844, 9, 60, 39);
 		contentPane.add(lblNewLabel_3);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(881, 18, 130, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		txt_data1c = new JTextField();
+		txt_data1c.setBounds(881, 18, 130, 20);
+		contentPane.add(txt_data1c);
+		txt_data1c.setColumns(10);
 		
-		lblNewLabel_4 = new JLabel("Nº Processo:");
+		lblNewLabel_4 = new JLabel("N\u00BA Processo:");
 		lblNewLabel_4.setBounds(1064, 13, 90, 31);
 		contentPane.add(lblNewLabel_4);
 		
@@ -129,7 +168,7 @@ public class MedicInterface extends JFrame {
 		tabbedPane.addTab("Rastreio", null, panel, null);
 		panel.setLayout(null);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Não");
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("N\u00E3o");
 		rdbtnNewRadioButton.setBounds(34, 33, 109, 23);
 		panel.add(rdbtnNewRadioButton);
 		
@@ -144,7 +183,7 @@ public class MedicInterface extends JFrame {
         group.add(rdbtnNewRadioButton);
         group.add(rdbtnNewRadioButton_1);
 		
-		JLabel lblDataDeAferio = new JLabel("Data de Aferição:");
+		JLabel lblDataDeAferio = new JLabel("Data de Aferi\u00E7\u00E3o:");
 		lblDataDeAferio.setBounds(324, 33, 109, 23);
 		panel.add(lblDataDeAferio);
 		
@@ -162,7 +201,7 @@ public class MedicInterface extends JFrame {
 		panel.add(textField_7);
 		textField_7.setColumns(10);
 		
-		JLabel lblNewLabel_6 = new JLabel("Identificação (N/Conc./Volta):");
+		JLabel lblNewLabel_6 = new JLabel("Identifica\u00E7\u00E3o (N\u00BA/Conc./Volta):");
 		lblNewLabel_6.setBounds(34, 174, 297, 38);
 		panel.add(lblNewLabel_6);
 		
@@ -175,7 +214,7 @@ public class MedicInterface extends JFrame {
 		separator.setBounds(10, 273, 1317, 23);
 		panel.add(separator);
 		
-		JLabel lblResidncia = new JLabel("Residência:");
+		JLabel lblResidncia = new JLabel("Resid\u00EAncia:");
 		lblResidncia.setBounds(34, 325, 76, 14);
 		panel.add(lblResidncia);
 		
@@ -187,20 +226,20 @@ public class MedicInterface extends JFrame {
 		lblEstadoCivil.setBounds(34, 406, 109, 14);
 		panel.add(lblEstadoCivil);
 		
-		textField_9 = new JTextField();
-		textField_9.setBounds(109, 322, 244, 20);
-		panel.add(textField_9);
-		textField_9.setColumns(10);
+		txt_morada = new JTextField();
+		txt_morada.setBounds(109, 322, 244, 20);
+		panel.add(txt_morada);
+		txt_morada.setColumns(10);
 		
 		textField_10 = new JTextField();
 		textField_10.setBounds(109, 362, 43, 19);
 		panel.add(textField_10);
 		textField_10.setColumns(10);
 		
-		textField_11 = new JTextField();
-		textField_11.setBounds(109, 403, 86, 20);
-		panel.add(textField_11);
-		textField_11.setColumns(10);
+		txt_estado_civil = new JTextField();
+		txt_estado_civil.setBounds(109, 403, 86, 20);
+		panel.add(txt_estado_civil);
+		txt_estado_civil.setColumns(10);
 		
 		JButton btnNewButton_1 = new JButton("Gravar");
 		btnNewButton_1.setBounds(1238, 616, 89, 23);
@@ -237,11 +276,19 @@ public class MedicInterface extends JFrame {
 		JButton btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchPacient proc_paciente = new SearchPacient();
+				SearchPatient proc_paciente = new SearchPatient();
 				proc_paciente.getFrame().setVisible(true);
 			}
 		});
 		btnNewButton_2.setBounds(375, 18, 20, 20);
 		contentPane.add(btnNewButton_2);
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 }
