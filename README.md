@@ -2,6 +2,9 @@
 
 Application responsible for managing breast cancer patients records
 
+Process:
+https://drive.google.com/drive/folders/0B3wFqbbaQo0gc3lNMkRVN0Q4cjA?usp=sharing
+
 Javadoc:
 https://paginas.fe.up.pt/~ee12097/
 
