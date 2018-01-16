@@ -8,6 +8,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import database.PostgreSQL;
+import socket.ClientSocketConection;
+import socket.SocketObject;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -139,10 +141,38 @@ public class Regist_patient {
 		btnRegist.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnRegist.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-				
-				String[] args = new String[3];
-				PostgreSQL con = database.Main.main(args);
-				
+			SocketObject objServer;
+			ClientSocketConection client = new ClientSocketConection();
+	    	SocketObject objClient = new SocketObject(3,client.getServerIP()); 
+			
+	    	
+	    	
+	    	client.newConnection();
+	    	
+	    	objClient.setNewUser(textField_username.getText());
+	    	objClient.setNewPassword(new String(passwordField.getPassword()));
+	    	objClient.setCommand("INSERT PATIENT");
+	    	
+	    	System.out.println("INSERT INFO: " + objClient.getNewUser() + " " + objClient.getNewPassword());
+			
+	    	//Sends regist info to server
+			client.sendObject(objClient);
+	    
+			//Waits for server response
+			System.out.println("Waiting for server response...");
+			objServer = client.getObject();
+			
+			//Checks if regist is correct
+			if (objServer.getCommand().compareTo("INSERT OK") == 0) {			
+				System.out.println("New User registed sucessfully\n");
+				frame.dispose();
+			} else {
+				System.out.println("Failed to Regist...\n");
+				label_warning.setText("Failed to Regist...");
+				client.close();
+			}
+		
+				/*				
 				if(con.registPatient(textField_Name.getText(), textField_username.getText(), new String(passwordField.getPassword()), textField_birthDate.getText(),
 						Integer.parseInt(textField_sns.getText()), textField_date1c.getText(), textField_address.getText(), textField_civilState.getText()) == 1)
 				{	
@@ -152,7 +182,7 @@ public class Regist_patient {
 				{
 					label_warning.setText("Wrong regist");
 					//textArea.setText("Wrong login. Try again.");					
-				}
+				}*/
 			}
 		});
 		btnRegist.setBounds(364, 274, 74, 23);

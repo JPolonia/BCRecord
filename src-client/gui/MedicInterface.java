@@ -90,12 +90,12 @@ public class MedicInterface extends JFrame {
 		txt_paciente.addKeyListener(new KeyAdapter() {
 			//@Override
 			public void keyReleased(KeyEvent arg0) {
-				try {
+				//try {
 					
-					String args[] = new String[1];
-					PostgreSQL con = database.Main.main(args);
+					//String args[] = new String[1];
+					//PostgreSQL con = database.Main.main(args);
 		
-					if(con.search(txt_paciente.getText(), txt_data, txt_sns, txt_data1c, txt_morada, txt_estado_civil)==1) {
+					//if(con.search(txt_paciente.getText(), txt_data, txt_sns, txt_data1c, txt_morada, txt_estado_civil)==1) {
 						/*String add1=rs.getString("data_nasc");
 						txt_data.setText(add1);
 						String add2=rs.getString("sns");
@@ -108,12 +108,12 @@ public class MedicInterface extends JFrame {
 						txt_estado_civil.setText(add5);*/
 					}
 					
-				con.disconect();	
+				//con.disconect();	
 					
-				}catch(Exception e){
-					JOptionPane.showMessageDialog(null,e);
-				}
-			}
+				//}catch(Exception e){
+				//	JOptionPane.showMessageDialog(null,e);
+				//}
+			//}
 		});
 		txt_paciente.setBounds(69, 18, 297, 20);
 		contentPane.add(txt_paciente);

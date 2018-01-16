@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import database.PostgreSQL;
+import socket.ClientSocketConection;
+import socket.SocketObject;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -91,17 +93,35 @@ public class Regist_medic {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				String[] args = new String[3];
-				PostgreSQL con = database.Main.main(args);
+				SocketObject objServer;
+				ClientSocketConection client = new ClientSocketConection();
+		    	SocketObject objClient = new SocketObject(3,client.getServerIP()); 
 				
-				if(con.registMedic(Name_textField.getText(), Username_textField.getText(), new String(passwordField.getPassword())) == 1)
-				{	
+		    	
+		    	
+		    	client.newConnection();
+		    	
+		    	objClient.setNewUser(Username_textField.getText());
+		    	objClient.setNewPassword(new String(passwordField.getPassword()));
+		    	objClient.setCommand("INSERT MEDIC");
+		    	
+		    	System.out.println("INSERT INFO: " + objClient.getNewUser() + " " + objClient.getNewPassword());
+				
+		    	//Sends regist info to server
+				client.sendObject(objClient);
+		    
+				//Waits for server response
+				System.out.println("Waiting for server response...");
+				objServer = client.getObject();
+				
+				//Checks if regist is correct
+				if (objServer.getCommand().compareTo("INSERT OK") == 0) {			
+					System.out.println("New User registed sucessfully\n");
 					frame.dispose();
-						
-				}else	
-				{
-					label_warning.setText("Wrong regist");
-					//textArea.setText("Wrong login. Try again.");					
+				} else {
+					System.out.println("Failed to Regist...\n");
+					label_warning.setText("Failed to Regist...");
+					client.close();
 				}
 			}
 			

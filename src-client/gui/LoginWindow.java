@@ -13,6 +13,9 @@ import java.awt.FlowLayout;
 import javax.swing.JTextField;
 
 import database.PostgreSQL;
+import socket.ClientSocketConection;
+import socket.SocketObject;
+import socket.ClientSocketConection.ProcessingState;
 
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -28,6 +31,7 @@ public class LoginWindow {
 	private JPasswordField passwordField;
 	private JTextField textField;
 	JTextArea textArea;
+	private JLabel lblInfo;
 
 	/**
 	 * Launch the application.
@@ -56,12 +60,12 @@ public class LoginWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		setFrame(new JFrame());
 		getFrame().getContentPane().setBackground(new Color(100, 149, 237));
 		getFrame().getContentPane().setLayout(null);
 		
 		JLabel label = new JLabel("");
-		//Image img = new ImageIcon(this.getClass().getResource("/login_ico.png")).getImage();
 		label.setIcon(new ImageIcon("D:\\workspace\\BCRecord\\img\\login_ico.png"));
 		label.setBounds(169, 30, 128, 128);
 		getFrame().getContentPane().add(label);
@@ -88,46 +92,55 @@ public class LoginWindow {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				SocketObject objServer;
+				ClientSocketConection client = new ClientSocketConection();
+		    	SocketObject objClient = new SocketObject(2,client.getServerIP()); 
 				
+		    	System.out.println("MY IP: "+client.getThisIP()+" SERVER: " + client.getServerIP() + " PORT: " + client.getServerPort());
+		    	
+		    	client.newConnection();
+		    	
+		    	objClient.setUser(textField.getText());
+		    	objClient.setPassword(new String(passwordField.getPassword()));
+		    	objClient.setCommand("LOGIN");
+		    	
+		    	System.out.println("LOGIN INFO: " + objClient.getUser() + " " + objClient.getPassword());
 				
-				String args[] = new String[2];
+		    	//Sends login info to server
+				client.sendObject(objClient);
+		    
+				//Waits for server response
+				System.out.println("Waiting for server response...");
+				objServer = client.getObject();
 				
-				PostgreSQL con = database.Main.main(args);
-				
-				String nomeMedico;
-				String nomePaciente;
-				/*args[0]="login";
-				args[1]=textField.getText();
-				args[2]=b;
-				
-				//System.out.println(args[0]);
-				//System.out.println(args[1]);*/
-				
-				nomeMedico = con.loginMedic(textField.getText(), new String(passwordField.getPassword()));
-				nomePaciente = con.loginPatient( textField.getText(), new String(passwordField.getPassword()));
-				
-				if(  nomeMedico != null)
-				{
-					MedicWindow jan = new MedicWindow();
-					jan.getFrame().setVisible(true);
-					jan.getLabel_MedicName().setText(nomeMedico);
-					getFrame().dispose();
+				//Checks if login info is correct
+				if (objServer.getCommand().compareTo("LOGIN OK") == 0) {			
+					System.out.println("Login to server successfull!\n");
+					//Close Connection
+					//client.close();
+					//Switch to window according to role
+					switch(objServer.getRole()) {
+						case "medic": 
+							MedicWindow med = new MedicWindow();
+							med.getFrame().setVisible(true);
+							frame.dispose();
+							break;
+						case "paciente":
+							PatientWindow pat = new PatientWindow();
+							pat.getFrame().setVisible(true);
+							frame.dispose();
+							break;
+						default: 
+							break;
+					}
 					
-				} else if( con.loginPatient(textField.getText(), new String(passwordField.getPassword())) != null  ) {
-					
-					PatientWindow jan = new PatientWindow();
-					jan.getFrame().setVisible(true);
-					jan.getLabel_PatientName().setText(nomePaciente);
+					//Closes Current Window
 					frame.dispose();
-					
-					
-				}else {
-					
-					textArea.setText("Wrong login. Try again.");
-				
+				} else {
+					System.out.println("Failed to Login... try again\n");
+					lblInfo.setText("Login Failed!");
+					client.close();
 				}
-				
-				con.disconect();
 				
 			}
 		});
@@ -141,6 +154,10 @@ public class LoginWindow {
 		textArea.setForeground(new Color(0, 0, 0));
 		textArea.setBounds(158, 319, 163, 14);
 		getFrame().getContentPane().add(textArea);
+		
+		lblInfo = new JLabel("");
+		lblInfo.setBounds(203, 156, 67, 30);
+		frame.getContentPane().add(lblInfo);
 		getFrame().setBounds(100, 100, 496, 383);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

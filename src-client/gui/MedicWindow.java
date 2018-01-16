@@ -88,8 +88,8 @@ public class MedicWindow {
 		JButton btnNewButton = new JButton("Pacientes");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MedicInterface medico_interface = new MedicInterface();
-				medico_interface.getFrame().setVisible(true);
+				//MedicInterface medico_interface = new MedicInterface();
+				//medico_interface.getFrame().setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(23, 75, 103, 23);
