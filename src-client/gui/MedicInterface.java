@@ -28,6 +28,9 @@ import javax.swing.SwingConstants;
 import java.sql.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class MedicInterface extends JFrame {
 
@@ -77,13 +80,51 @@ public class MedicInterface extends JFrame {
 		getFrame().setBackground(Color.CYAN);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().setBounds(100, 100, 1920, 1080);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmLogout = new JMenuItem("Logout");
+		mntmLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginWindow login_jan = new LoginWindow();
+				login_jan.getFrame().setVisible(true);
+				frame.dispose();
+			}
+		});
+		mnFile.add(mntmLogout);
+		
+		JMenu mnManageUsers = new JMenu("Manage Users");
+		menuBar.add(mnManageUsers);
+		
+		JMenuItem mntmRegistPatient = new JMenuItem("Regist Patient");
+		mntmRegistPatient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Regist_patient jan = new Regist_patient();
+				jan.getFrame().setVisible(true); 
+			}
+		});
+		mnManageUsers.add(mntmRegistPatient);
+		
+		JMenuItem mntmRegistMedic = new JMenuItem("Regist Medic");
+		mntmRegistMedic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Regist_medic jan_regist = new Regist_medic();
+				jan_regist.getFrame().setVisible(true);
+			}
+		});
+		mnManageUsers.add(mntmRegistMedic);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Paciente:");
-		lblNewLabel.setBounds(10, 4, 60, 48);
+		lblNewLabel.setBounds(12, 49, 60, 48);
 		contentPane.add(lblNewLabel);
 		
 		txt_paciente = new JTextField();
@@ -115,53 +156,53 @@ public class MedicInterface extends JFrame {
 				//}
 			//}
 		});
-		txt_paciente.setBounds(69, 18, 297, 20);
+		txt_paciente.setBounds(71, 63, 297, 20);
 		contentPane.add(txt_paciente);
 		txt_paciente.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Data Nasc:");
-		lblNewLabel_1.setBounds(405, 13, 90, 31);
+		lblNewLabel_1.setBounds(407, 58, 90, 31);
 		contentPane.add(lblNewLabel_1);
 		
 		txt_data = new JTextField();
-		txt_data.setBounds(467, 18, 130, 20);
+		txt_data.setBounds(469, 63, 130, 20);
 		contentPane.add(txt_data);
 		txt_data.setColumns(10);
 		
 		lblNewLabel_2 = new JLabel("SNS:");
-		lblNewLabel_2.setBounds(632, 13, 53, 31);
+		lblNewLabel_2.setBounds(634, 58, 53, 31);
 		contentPane.add(lblNewLabel_2);
 		
 		txt_sns = new JTextField();
-		txt_sns.setBounds(663, 18, 130, 20);
+		txt_sns.setBounds(665, 63, 130, 20);
 		contentPane.add(txt_sns);
 		txt_sns.setColumns(10);
 		
 		lblNewLabel_3 = new JLabel("D.1\u00BAC:");
-		lblNewLabel_3.setBounds(844, 9, 60, 39);
+		lblNewLabel_3.setBounds(846, 54, 60, 39);
 		contentPane.add(lblNewLabel_3);
 		
 		txt_data1c = new JTextField();
-		txt_data1c.setBounds(881, 18, 130, 20);
+		txt_data1c.setBounds(883, 63, 130, 20);
 		contentPane.add(txt_data1c);
 		txt_data1c.setColumns(10);
 		
 		lblNewLabel_4 = new JLabel("N\u00BA Processo:");
-		lblNewLabel_4.setBounds(1064, 13, 90, 31);
+		lblNewLabel_4.setBounds(1066, 58, 90, 31);
 		contentPane.add(lblNewLabel_4);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(1140, 18, 130, 20);
+		textField_4.setBounds(1142, 63, 130, 20);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
 		textField_5 = new JTextField();
-		textField_5.setBounds(1280, 18, 20, 20);
+		textField_5.setBounds(1282, 63, 20, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 52, 1342, 678);
+		tabbedPane.setBounds(12, 97, 1342, 678);
 		contentPane.add(tabbedPane);
 		
 		JPanel panel = new JPanel();
@@ -270,7 +311,7 @@ public class MedicInterface extends JFrame {
 		tabbedPane.addTab("Follow up", null, panel_8, null);
 		
 		JButton btnNewButton = new JButton("Exportar");
-		btnNewButton.setBounds(1263, 49, 89, 23);
+		btnNewButton.setBounds(1263, 96, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("New button");
@@ -280,7 +321,7 @@ public class MedicInterface extends JFrame {
 				proc_paciente.getFrame().setVisible(true);
 			}
 		});
-		btnNewButton_2.setBounds(375, 18, 20, 20);
+		btnNewButton_2.setBounds(377, 63, 20, 20);
 		contentPane.add(btnNewButton_2);
 	}
 	

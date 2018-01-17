@@ -31,20 +31,20 @@ import javax.swing.JTextField;
 			    {
 			        Class.forName(driver);
 			        con =  DriverManager.getConnection(url, props);
-			        System.out.println("Conexão realizada com sucesso.");
+			        System.out.println("Conection established successfully.");
 			        //System.out.println(con);
 			        
 			    }
 			    catch (ClassNotFoundException ex)
 			    {
 			    	
-			        System.err.print(ex.getMessage());System.out.println("Conexão falhada 1.");
+			        System.err.print(ex.getMessage());System.out.println("Connection failed: ClassNotFound");
 			    } 
 			    
 			    catch (SQLException e)
 			    {
 			    	
-			        System.err.print(e.getMessage());System.out.println("Conexão falhada 2.");
+			        System.err.print(e.getMessage());System.out.println("Connection failed: SQL");
 			  
 			    }
 
@@ -151,11 +151,7 @@ import javax.swing.JTextField;
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				return null;
-	          
-	           
-
-	          
+				return null;	          
 		 }
 		 
 		 public int registPatient(String name , String username, String password, String birth_date, int sns, String date_1c, String adress, String civil_state )

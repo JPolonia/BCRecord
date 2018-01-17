@@ -192,8 +192,8 @@ public class Regist_patient {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				MedicWindow jan = new MedicWindow();
-				jan.getFrame().setVisible(true);
+				/*MedicWindow jan = new MedicWindow();
+				jan.getFrame().setVisible(true);*/
 				getFrame().dispose();
 			}
 		});

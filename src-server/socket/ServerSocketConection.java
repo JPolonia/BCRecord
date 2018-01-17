@@ -8,7 +8,7 @@ import database.PostgreSQL;
 import java.io.*;
 
 /**
- * @author João
+ * @author Joao
  *
  */
 public class ServerSocketConection {
@@ -141,30 +141,21 @@ public class ServerSocketConection {
 			}
 		}
 		
-		public boolean processLogin(SocketObject obj) {	
-			this.role = p.login(obj.getUser(), obj.getPassword());
-			
-			if (role == null) {
-    			System.out.println("Error login try again...");
-    			return false;
-    		}else {
-        		System.out.println(obj.getUser() + " has connected.");
-    		}
-			
-			return true;
-		}
-		
 		public boolean processCommand(SocketObject objClient, SocketObject objServer) {
 			switch (objClient.getCommand().toString()) {
 				case "LOGIN": 
-					if (!processLogin(objClient)) {
-						objServer.setCommand("ERROR");
-						return false;
-					}else {
-						objServer.setCommand("LOGIN OK");
+					this.role = p.login(objClient.getUser(), objClient.getPassword());
+					
+					if (role == null) {
+		    			System.out.println("Error login try again...");
+		    			objServer.setCommand("ERROR");
+		    			return false;
+		    		}else {
+		        		System.out.println(objClient.getUser() + " has connected.");
+		        		objServer.setCommand("LOGIN OK");
 		    			objServer.setRole(role);
 		    			return true;
-					}
+		    		}
 				case "SHUTDOWN": System.exit(0);
 				case "INSERT MEDIC": 
 					if(p.registMedic("Test", objClient.getNewUser(), objClient.getNewPassword())==1) {

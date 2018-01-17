@@ -3,7 +3,7 @@ package logic;
 import socket.ServerSocketConection;
 
 /**
- * @author Jo�o
+ * @author Joao
  * Main Server Class, responsible for initing, authenticate and process the requests from client
  */
 public class MainServer {
