@@ -4,6 +4,7 @@ Application responsible for managing breast cancer patients records
 
 Server Application:
 OutputJAR/BCRecord Server.jar
+
 Client Application:
 OutputJAR/BCRecord Client.jar
 
