@@ -12,7 +12,7 @@ public final class Medic {
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected String getUser() {
+	protected static String getUser() {
 		return username;
 	}
 
@@ -20,7 +20,7 @@ public final class Medic {
 		Medic.username = str;
 	}
 	
-	protected String getPassHash() {
+	protected static String getPassHash() {
 		return passHash;
 	}
 

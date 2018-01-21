@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.PostgreSQL;
+import logic.Patient;
 
 import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
@@ -31,29 +32,32 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.Window.Type;
 
-public class MedicInterface extends JFrame {
+public final class MedicInterface extends JFrame {
 
-	private JFrame frame;
-	private JPanel contentPane;
-	private JTextField txt_paciente;
-	private JTextField txt_data;
-	private JLabel lblNewLabel_2;
-	private JTextField txt_sns;
-	private JLabel lblNewLabel_3;
-	private JTextField txt_data1c;
-	private JLabel lblNewLabel_4;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField txt_morada;
-	private JTextField textField_10;
-	private JTextField txt_estado_civil;
+	private static JFrame frmBcRecord;
+	private static JPanel contentPane;
+	private static JTextField txt_paciente;
+	private static JTextField txt_data;
+	private static JLabel lblNewLabel_2;
+	private static JTextField txt_sns;
+	private static JLabel lblNewLabel_3;
+	private static JTextField txt_data1c;
+	private static JLabel lblNewLabel_4;
+	private static JTextField txt_process;
+	private static JTextField textField_5;
+	private static JTextField textField_6;
+	private static JTextField textField_7;
+	private static JTextField textField_8;
+	private static JTextField txt_morada;
+	private static JTextField txt_idade;
+	private static JTextField txt_estado_civil;
 	Connection conn;
 	//PreparedStatement ps;
 	//ResultSet rs;
+	
+	public static Patient patient;
 
 	
 	/**
@@ -79,10 +83,10 @@ public class MedicInterface extends JFrame {
 		setFrame(new JFrame());
 		getFrame().setBackground(Color.CYAN);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().setBounds(100, 100, 1920, 1080);
+		getFrame().setBounds(100, 100, 1393, 854);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmBcRecord.setJMenuBar(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
@@ -92,12 +96,12 @@ public class MedicInterface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				LoginWindow login_jan = new LoginWindow();
 				login_jan.getFrame().setVisible(true);
-				frame.dispose();
+				frmBcRecord.dispose();
 			}
 		});
 		mnFile.add(mntmLogout);
 		
-		JMenu mnManageUsers = new JMenu("Manage Users");
+		JMenu mnManageUsers = new JMenu("Gestão de Utilizadores");
 		menuBar.add(mnManageUsers);
 		
 		JMenuItem mntmRegistPatient = new JMenuItem("Regist Patient");
@@ -120,7 +124,7 @@ public class MedicInterface extends JFrame {
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.setContentPane(contentPane);
+		frmBcRecord.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Paciente:");
@@ -191,10 +195,10 @@ public class MedicInterface extends JFrame {
 		lblNewLabel_4.setBounds(1066, 58, 90, 31);
 		contentPane.add(lblNewLabel_4);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(1142, 63, 130, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		txt_process = new JTextField();
+		txt_process.setBounds(1142, 63, 130, 20);
+		contentPane.add(txt_process);
+		txt_process.setColumns(10);
 		
 		textField_5 = new JTextField();
 		textField_5.setBounds(1282, 63, 20, 20);
@@ -272,10 +276,10 @@ public class MedicInterface extends JFrame {
 		panel.add(txt_morada);
 		txt_morada.setColumns(10);
 		
-		textField_10 = new JTextField();
-		textField_10.setBounds(109, 362, 43, 19);
-		panel.add(textField_10);
-		textField_10.setColumns(10);
+		txt_idade = new JTextField();
+		txt_idade.setBounds(109, 362, 43, 19);
+		panel.add(txt_idade);
+		txt_idade.setColumns(10);
 		
 		txt_estado_civil = new JTextField();
 		txt_estado_civil.setBounds(109, 403, 86, 20);
@@ -285,6 +289,10 @@ public class MedicInterface extends JFrame {
 		JButton btnNewButton_1 = new JButton("Gravar");
 		btnNewButton_1.setBounds(1238, 616, 89, 23);
 		panel.add(btnNewButton_1);
+		
+		JComboBox cb_estado_civil = new JComboBox();
+		cb_estado_civil.setBounds(109, 433, 94, 22);
+		panel.add(cb_estado_civil);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Localização", null, panel_1, null);
@@ -326,10 +334,21 @@ public class MedicInterface extends JFrame {
 	}
 	
 	public JFrame getFrame() {
-		return frame;
+		return frmBcRecord;
 	}
 
 	public void setFrame(JFrame frame) {
-		this.frame = frame;
+		this.frmBcRecord = frame;
+		frmBcRecord.setTitle("BC Record");
+	}
+	
+	public static void refreshFrame() {
+		txt_process.setText(String.valueOf(patient.numberProcess));
+		txt_paciente.setText(patient.fullName);
+		txt_data.setText(String.valueOf(new Date(patient.dataNascimento)));
+		txt_sns.setText(String.valueOf(patient.sns));
+		txt_data1c.setText(String.valueOf(new Date(patient.dataPrimeiraConsulta)));
+		txt_morada.setText(patient.address);
+		txt_estado_civil.setText(patient.estadoCivil);
 	}
 }

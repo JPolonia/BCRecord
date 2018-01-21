@@ -173,6 +173,15 @@ public class ServerSocketConection {
 						objServer.setCommand("ERROR");
 						return false;
 					}
+				case "SEARCH PATIENT": 
+					objServer.patient = p.searchPatient(objClient.getPatientName());
+					if(objServer.patient !=null) {
+						objServer.setCommand("SEARCH OK");
+						return true;
+					}else {
+						objServer.setCommand("ERROR");
+						return false;
+					}
 				case "LOGOUT": return false;
 				default: return true;
 			}

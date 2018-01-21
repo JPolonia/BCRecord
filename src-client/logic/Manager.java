@@ -1,7 +1,5 @@
 package logic;
 
-import gui.MedicWindow;
-import gui.PatientWindow;
 import socket.ClientSocketConection;
 import socket.SocketObject;
 
@@ -49,5 +47,45 @@ public final class Manager {
 			client.close();
 		}
 		return true;
+	}
+	
+	public static Patient SearchPatient(String name) {
+		SocketObject objServer;
+		ClientSocketConection client = new ClientSocketConection();
+    	SocketObject objClient = new SocketObject(2,client.getServerIP()); 
+		
+    	System.out.println("MY IP: "+client.getThisIP()+" SERVER: " + client.getServerIP() + " PORT: " + client.getServerPort());
+    	
+    	client.newConnection();
+    	
+    	objClient.setUser(Medic.getUser());
+    	objClient.setPassword(Medic.getPassHash());
+    	objClient.setRole("medic");
+  
+    	objClient.setCommand("SEARCH PATIENT");
+    	objClient.setPatientName(name);
+    	//objClient.list.add(name);
+    	
+    	System.out.println("LOGIN INFO: " + objClient.getUser() + " " + objClient.getPassword() + " " + objClient.getRole());
+		
+    	//Sends info to server
+		client.sendObject(objClient);
+    
+		//Waits for server response
+		System.out.println("Waiting for server response...");
+		objServer = client.getObject();
+		
+		//Checks if login info is correct
+		if (objServer.getCommand().compareTo("SEARCH OK") == 0) {			
+			System.out.println("Search return successfully!\n");
+			
+			//Returns Patient Object
+			return objServer.patient;
+		} else {
+			System.out.println("Search Failed... ");
+			//lblInfo.setText("Login Failed!");
+			client.close();
+		}
+		return null;
 	}
 }

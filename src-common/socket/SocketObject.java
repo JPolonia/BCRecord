@@ -3,6 +3,8 @@ package socket;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import logic.Patient;
+
 public class SocketObject implements Serializable  {
 	/**
 	 * 
@@ -12,7 +14,10 @@ public class SocketObject implements Serializable  {
 	private int number;
 	private String IPaddress , user, cmd, msg, pass, role;
 	private String newUser,newPassword, newRole;
-	//public  ArrayList<String> list;
+	public  ArrayList<String> list;
+	public Patient patient;
+
+	private String PatientName;
 	//public ArrayList<FieldSQL> valuesSQL = new ArrayList<FieldSQL>();
 	
 	public SocketObject(int num, String ip){
@@ -98,6 +103,14 @@ public class SocketObject implements Serializable  {
 
 	public void setNewPassword(String name) {
 		this.newPassword = name;
+	}
+
+	public void setPatientName(String name) {
+		this.PatientName = name;
+	}
+	
+	public String getPatientName() {
+		return PatientName;
 	}
 }
 

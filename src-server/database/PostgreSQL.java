@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Properties;
 import javax.swing.JTextField;
 
+import logic.Patient;
+
 
 	public class PostgreSQL
 	{
@@ -245,6 +247,39 @@ import javax.swing.JTextField;
 	            	return 0;
 	            
 			 }
+		 }
+		 
+	public Patient searchPatient(String name) {         
+			 
+			 String sql = "SELECT * from bcrecord.paciente where nome=?";
+			 PreparedStatement pst;
+			 ResultSet rs;
+			 Patient patient = new Patient();
+			 
+	         try {
+	        	 	
+	        	 	pst=con.prepareStatement(sql);
+					pst.setString(1, name);
+					
+					rs=pst.executeQuery();
+					
+					if(rs.next()) {
+						patient.setData(rs.getString("nome"), rs.getString("contacto"), rs.getInt("data_nasc"), rs.getInt("data_1c"), rs.getInt("processo"),rs.getString("morada"),rs.getInt("sns"));						
+						System.out.println("Patient Found!");
+						return patient;
+						
+					} else{
+						
+						System.out.println("Patient Not Found!");
+						return null;
+					}
+
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			return null;
+
 		 }
 		 
 		 public int search(String paciente, JTextField data, JTextField sns, JTextField data1c, JTextField morada, JTextField estado_civil ) {

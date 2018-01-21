@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.sql.*;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.PostgreSQL;
+import logic.Manager;
+import logic.Patient;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
+import java.awt.Dialog.ModalExclusionType;
 
 public class SearchPatient extends JFrame {
 
@@ -30,6 +31,8 @@ public class SearchPatient extends JFrame {
 	Connection con;
 	PreparedStatement ps;
 	ResultSet rs;
+	public Patient patient;
+	JLabel label;
 
 	/**
 	 * Launch the application.
@@ -76,16 +79,22 @@ public class SearchPatient extends JFrame {
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*try {
-					rs = PostgreSQL.getDate("SELECT * FROM paciente WHERE nome='"+nome.getText()+"'");
-				}catch(Exception e) {
-					e.printStackTrace();
-				}*/
-				
+				patient = Manager.SearchPatient(textField.getText());
+				if(patient !=null) {
+					MedicInterface.patient = patient;
+					MedicInterface.refreshFrame();
+					frame.dispose();
+				}else {
+					label.setText("Patient not Found!");
+				}
 			}
 		});
 		btnProcurar.setBounds(254, 159, 89, 23);
 		contentPane.add(btnProcurar);
+		
+		label = new JLabel("");
+		label.setBounds(103, 13, 240, 16);
+		contentPane.add(label);
 	}
 
 	public JFrame getFrame() {
