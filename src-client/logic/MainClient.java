@@ -14,7 +14,7 @@ public class MainClient {
 		System.out.println("BCRECORD - Client Application");
 		
 		//Only to set the serverIP and port, the object will not be used...				
-		ClientSocketConection.SERVER_IP = "localhost";
+		ClientSocketConection.SERVER_IP = "172.30.7.128";
 		ClientSocketConection.SERVER_PORT = 4445;
 		ClientSocketConection.STATE = ProcessingState.LOGIN;
 		ClientSocketConection.setThisIP();
